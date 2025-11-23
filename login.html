@@ -1,0 +1,87 @@
+<!Sheriann Sewell 2210110>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowStrand Beauty - Login</title>
+    <link rel="stylesheet" href="../style.css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="../assets/logo.png" alt="GlowStrand Beauty Logo" class="logo">
+            <h1 class="brand-title">GlowStrand Beauty</h1>
+        </div>
+
+
+        <div id="welcome-message" class="welcome-message"></div>
+
+        <nav>
+            <ul>
+		<li><a href="index.html">Home</a></li> 
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <main>
+        <section class="login-section">
+            <h1>Login</h1>
+            <p>Enter your email and password to access your GlowStrand account.</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit">Login</button>
+                </div>
+
+                <p class="register-link">
+                    Don't have an account? <a href="register.html">Register here</a>.
+                </p>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 GlowStrand Beauty. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+
+            const firstName = email.split("@")[0];
+            localStorage.setItem("loggedInUser", firstName);
+
+            window.location.href = "index.html";
+        });
+
+        // Show welcome message if logged in
+        const user = localStorage.getItem("loggedInUser");
+        const welcomeBox = document.getElementById("welcome-message");
+
+        if (user) {
+            welcomeBox.textContent = "Welcome back, " + user + "!";
+        }
+    </script>
+
+</body>
+</html>

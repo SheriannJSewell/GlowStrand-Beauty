@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowStrand Beauty - Invoice</title>
+    <link rel="stylesheet" href="../style.css/style.css">
+    <style>
+        /* Invoice-specific styling */
+        .invoice-section {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .invoice-header, .invoice-footer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .invoice-header h1 {
+            color: #FFD700;
+        }
+        .invoice-details, .invoice-summary {
+            margin-bottom: 20px;
+        }
+        .invoice-details table, .invoice-summary table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .invoice-details th, .invoice-details td,
+        .invoice-summary th, .invoice-summary td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .invoice-details th {
+            background-color: #FFD700;
+            color: #000;
+        }
+        .invoice-summary td {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">GlowStrand Beauty</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="invoice-section">
+            <div class="invoice-header">
+                <h1>Invoice</h1>
+                <p>GlowStrand Beauty</p>
+                <p id="invoiceDate"></p>
+            </div>
+
+            <!-- Customer Information -->
+            <div class="invoice-details">
+                <h2>Customer Information</h2>
+                <p><strong>Name:</strong> <span id="customerName"></span></p>
+                <p><strong>Email:</strong> <span id="customerEmail"></span></p>
+                <p><strong>Shipping Address:</strong> <span id="customerAddress"></span></p>
+
+                <!-- Ordered Products Table -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price (JMD)</th>
+                            <th>Subtotal (JMD)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoiceItems">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Summary -->
+            <div class="invoice-summary">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Discount:</td>
+                            <td id="invoiceDiscount">JMD $0</td>
+                        </tr>
+                        <tr>
+                            <td>Tax (15%):</td>
+                            <td id="invoiceTax">JMD $0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total:</strong></td>
+                            <td id="invoiceTotal"><strong>JMD $0</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="invoice-footer">
+                <p>Thank you for shopping with GlowStrand Beauty!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 GlowStrand Beauty. All rights reserved.</p>
+    </footer>
+
+    <script>
+
+        const invoiceItemsContainer = document.getElementById('invoiceItems');
+        const lastOrder = JSON.parse(localStorage.getItem('lastOrder')) || [];
+        let subtotal = 0;
+
+        lastOrder.forEach(item => {
+            const itemSubtotal = item.price * item.quantity;
+            subtotal += itemSubtotal;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.name}</td>
+                <td>${item.quantity}</td>
+                <td>${item.price}</td>
+                <td>${itemSubtotal}</td>
+            `;
+            invoiceItemsContainer.appendChild(row);
+        });
+
+        const discount = 0;
+        const tax = Math.round(subtotal * 0.15);
+        const total = subtotal - discount + tax;
+
+        document.getElementById('invoiceDiscount').textContent = `JMD $${discount}`;
+        document.getElementById('invoiceTax').textContent = `JMD $${tax}`;
+        document.getElementById('invoiceTotal').textContent = `JMD $${total}`;
+
+        const today = new Date();
+        document.getElementById('invoiceDate').textContent = `Date: ${today.toLocaleDateString()}`;
+
+        document.getElementById('customerName').textContent = localStorage.getItem('checkoutName') || 'N/A';
+        document.getElementById('customerEmail').textContent = localStorage.getItem('checkoutEmail') || 'N/A';
+        document.getElementById('customerAddress').textContent = localStorage.getItem('checkoutAddress') || 'N/A';
+
+    </script>
+    <script src="../script.js/script.js"></script>
+</body>
+</html>
